@@ -1,0 +1,20 @@
+*{
+    margin: 0;
+    padding: 0;
+     box-sizing: border-box;
+   
+}
+:root{
+    --color-131921:#131921;
+}
+body{
+    font-family: 'Roboto', sans-serif;
+  
+}
+a{
+    text-decoration: none;
+    display: inline-block;
+}
+::-webkit-scrollbar {
+    display: none;
+  }
