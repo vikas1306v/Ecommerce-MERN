@@ -8,7 +8,7 @@ import { PayPalScriptProvider } from "@paypal/react-paypal-js";
 import { transitions, positions, Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
 const initialOptions = {
-  clientId: "AchzGsFcKB_qpjjfTpNt5JkElbTO3-pUIcJSvX09W8ZSo8xfyIlLf8pV74gteC7-CxaXKVGTQqKPJIH3",
+  clientId:"your client id",
   currency: "USD",
   intent: "capture",
 };
