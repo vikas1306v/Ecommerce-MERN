@@ -338,4 +338,33 @@ router.get('/getById/:productId',async (req,res)=>{
         })
     }
 })
+
+
+//get on basis of filters query paramters
+router.post('/getByFilters',async (req,res)=>{
+    const query=req.body;
+        
+
+    try{
+        const products=await Product.find({
+            $or:[
+                {color:{$in:query.color}},
+                {size:{$in:query.size}},
+            ]
+        });
+        return res.json({
+            success:true,
+            message:'Products fetched successfully',
+            products:products
+        })
+    }
+    catch(e)
+    {
+        return res.json({
+            success:false,
+            error:e,
+            message:'Internal Server Error'
+        })
+    }
+})
 module.exports=router;

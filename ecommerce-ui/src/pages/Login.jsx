@@ -14,7 +14,7 @@ import LeftSnackbar from "../components/UiUtils/LeftSnackbar";
 import { useNavigate } from "react-router-dom";
 import {addwishlist} from '../Redux/Slices/wishlistSlice'
 
-import { addToCart } from "../Redux/Slices/Cartslice";
+import { addToCart } from "../Redux/Slices/cartSlice";
 export default function Login() {
   const alert=useAlert()
   const navigate = useNavigate();

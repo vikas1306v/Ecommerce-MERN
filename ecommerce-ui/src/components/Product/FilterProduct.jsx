@@ -8,68 +8,40 @@ import {
   PlusIcon,
   Squares2X2Icon,
 } from "@heroicons/react/20/solid";
-import ProductCard from "../Card/ProductCard";
-import { Link } from "react-router-dom";
+
 import CartHome from "../Home/CartHome";
 
 import { useDispatch, useSelector } from "react-redux";
 import { setProduct } from "../../Redux/Slices/Product";  
-//sort price high to low
-const sortHighToLow = async () => {
-  const res = await fetch("/api/v1/product/priceHtoL", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await res.json();
-};
 
-//sort price low to high
-const sortLowToHigh = async () => {
-  const res = await fetch("/api/v1/product/priceLtoH", {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
-  const data = await res.json();
-};
+
+
+
 
 const filters = [
   {
     id: "color",
-    name: "Color",
+    name: "color",
     options: [
-      { value: "white", label: "White", checked: false },
-      { value: "beige", label: "Beige", checked: false },
-      { value: "blue", label: "Blue", checked: true },
-      { value: "brown", label: "Brown", checked: false },
-      { value: "green", label: "Green", checked: false },
-      { value: "purple", label: "Purple", checked: false },
+      { value: "White", label: "White", checked: false },
+      { value: "Beige", label: "Beige", checked: false },
+      { value: "Blue", label: "Blue", checked: true },
+      { value: "Bown", label: "Brown", checked: false },
+      { value: "Green", label: "Green", checked: false },
+      { value: "Purple", label: "Purple", checked: false },
     ],
   },
-  {
-    id: "category",
-    name: "Category",
-    options: [
-      { value: "new-arrivals", label: "New Arrivals", checked: false },
-      { value: "sale", label: "Sale", checked: false },
-      { value: "travel", label: "Travel", checked: true },
-      { value: "organization", label: "Organization", checked: false },
-      { value: "accessories", label: "Accessories", checked: false },
-    ],
-  },
+
   {
     id: "size",
     name: "Size",
     options: [
-      { value: "2l", label: "2L", checked: false },
-      { value: "6l", label: "6L", checked: false },
-      { value: "12l", label: "12L", checked: false },
-      { value: "18l", label: "18L", checked: false },
-      { value: "20l", label: "20L", checked: false },
-      { value: "40l", label: "40L", checked: true },
+      { value: "XS", label: "XS", checked: false },
+      { value: "S", label: "S", checked: false },
+      { value: "M", label: "M", checked: false },
+      { value: "L", label: "L", checked: false },
+      { value: "XL", label: "XL", checked: false },
+      { value: "XXl", label: "XXL", checked: true },
     ],
   },
 ];
@@ -78,12 +50,63 @@ export default function FilterProduct() {
 
   const dispatch = useDispatch();
   const products = useSelector((state) =>{return state.product});
+  const [formData, setFormData] = useState({
+    color:[],
+    size:[]
+  });
   useEffect(() => {
     window.scrollTo(0, 0);
   }, []);
 
+  //apply filters
+
+  const applyFilters = async (e) => {
+    e.preventDefault()
+    console.log(formData)
+    const res=await fetch('/api/v1/product/getByFilters',{
+      method:'POST',
+      headers:{
+        'Content-Type':'application/json'
+      },
+      body:JSON.stringify(formData)
+
+    } )
+    const response=await res.json()
+    console.log(response)
+    dispatch(setProduct(response.products))
+
+  }
+  //sort price high to low
+  const sortHighToLow = async () => {
+    const res = await fetch("/api/v1/product/priceHtoL", {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const data = await res.json();
+    dispatch(setProduct(data.products));
+  };
+  //sort price low to high
+const sortLowToHigh = async () => {
+  const res = await fetch("/api/v1/product/priceLtoH", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+  const data = await res.json();
+  dispatch(setProduct(data.products));
+};
+
   //remove filters
   const removeFilters=async()=>{
+    setFormData({
+      color:[],
+      size:[]
+    })
+
+   
     const res=await fetch('/api/v1/product/all',
     {
        method:'GET',
@@ -151,7 +174,7 @@ export default function FilterProduct() {
                       className="px-2 py-3 font-medium text-gray-900"
                     >
                       <li>
-                        <button to="/" className="block px-2 py-3">
+                        <button type="button" onClick={removeFilters} className="block px-2 py-3">
                           REMOVE FILTERS
                           
                         </button>
@@ -198,6 +221,7 @@ export default function FilterProduct() {
                                       name={`${section.id}[]`}
                                       defaultValue={option.value}
                                       type="checkbox"
+                                    
                                       defaultChecked={option.checked}
                                       className="h-4 w-4 rounded border-gray-300 text-indigo-600 focus:ring-indigo-500"
                                     />
@@ -213,8 +237,14 @@ export default function FilterProduct() {
                             </Disclosure.Panel>
                           </>
                         )}
+                        
                       </Disclosure>
-                    ))}
+                      
+                    ))
+                    }
+                  
+                   
+                   
                   </form>
                 </Dialog.Panel>
               </Transition.Child>
@@ -224,8 +254,6 @@ export default function FilterProduct() {
 
         <main className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mt-6">
-            {/* <Breadcrums/> */}
-            {/* <BreadcrumbsTest/> */}
           </div>
 
           <div className="flex items-baseline justify-between border-b border-gray-200 pb-6 pt-10 ">
@@ -236,7 +264,7 @@ export default function FilterProduct() {
             <div className="flex items-center">
               <Menu as="div" className="relative inline-block text-left">
                 <div>
-                  <Menu.Button className="group inline-flex justify-center text-sm font-medium text-gray-700 hover:text-gray-900">
+                  <Menu.Button className="group inline-flex justify-center text-sm font-semibold text-gray-700 hover:text-gray-900">
                     Sort
                     <ChevronDownIcon
                       className="-mr-1 ml-1 h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
@@ -260,7 +288,7 @@ export default function FilterProduct() {
                         <Menu.Item key={"HGH"}>
                           {({ active }) => (
                             <button
-                              className="m-2 text-gray-700 hover:text-gray-900"
+                              className="m-2 font-bold text-gray-700 hover:text-gray-900"
                               onClick={() => sortHighToLow()}
                             >
                               High to Low
@@ -272,38 +300,16 @@ export default function FilterProduct() {
                         <Menu.Item key={"LGH"}>
                           {({ active }) => (
                             <button
-                              className="m-2 ml-4 shadow-sm text-gray-700 hover:text-gray-900"
-                              onClick={() => sortHighToLow()}
+                              className="m-2 font-bold text-gray-700 hover:text-gray-900"
+                              onClick={() => sortLowToHigh()}
                             >
                               Low to High
                             </button>
                           )}
                         </Menu.Item>
                       }
-                      {
-                        <Menu.Item key={"LGH"}>
-                          {({ active }) => (
-                            <button
-                              className="m-2 ml-4 shadow-sm text-gray-700 hover:text-gray-900"
-                              onClick={() => sortHighToLow()}
-                            >
-                              Low to High
-                            </button>
-                          )}
-                        </Menu.Item>
-                      }
-                      {
-                        <Menu.Item key={"LGH"}>
-                          {({ active }) => (
-                            <button
-                              className="m-2 text-gray-700 hover:text-gray-900"
-                              onClick={() => sortHighToLow()}
-                            >
-                              Low to High
-                            </button>
-                          )}
-                        </Menu.Item>
-                      }
+                   
+                 
                     </div>
                   </Menu.Items>
                 </Transition>
@@ -338,8 +344,8 @@ export default function FilterProduct() {
 
             <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4"  >
               {/* Filters */}
-              <form className="hidden lg:block" >
-                <h3 className="sr-only">Categories</h3>
+              <form className="hidden lg:block"  onSubmit={(e)=>applyFilters(e)}>
+                {/* <h3 className="sr-only">Price</h3> */}
                 <ul
                   role="list"
                   className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900"
@@ -392,6 +398,8 @@ export default function FilterProduct() {
                                 className="flex items-center"
                               >
                                 <input
+
+                                onChange={(e)=>setFormData({...formData,[section.id]:[...formData[section.id],e.target.value]    })}
                                   id={`filter-${section.id}-${optionIdx}`}
                                   name={`${section.id}[]`}
                                   defaultValue={option.value}
@@ -413,17 +421,30 @@ export default function FilterProduct() {
                     )}
                   </Disclosure>
                 ))}
+
+              <button type="submit"  className="flex  ml-16  mt-4">
+                    <div  className="border-transparent  cursor-pointer rounded-md p-1 text-xl bg-red-800 text-white hover:text-red-100">
+                      Apply Filters
+                      </div>
+                    
+                    
+                    </button>  
               </form>
 
               {/* Product grid */}
-              <div className="lg:col-span-3">
+              <div className="lg:col-span-3 " >
 
-              <div class="grid grid-cols-3 gap-4  w-full" >
+              <div class="grid lg:grid-cols-3 gap-4  md:grid-cols-2 sm:grid-cols-1  w-full " >
                 
                   {products.products.length>0?products.products.map((item,i) => {
                     
                     return <CartHome images={item.images[0].url} item={item}  key={i} />;
-                  }):null}
+                  }):(
+                    <div   className="lg:ml-56 lg:mt-16 sm:ml-7 sm:text:sm flex justify-center items-center w-full h-full">
+                      <h1 className="text-3xl font-bold">No Products Found In This Category Or applied filter</h1>
+                    </div>
+                  
+                  )}
                 </div>
               </div>
             </div>

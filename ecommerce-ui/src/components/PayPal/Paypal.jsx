@@ -2,20 +2,22 @@
 import { PayPalButtons } from '@paypal/react-paypal-js';
 import React from 'react'
 
-const Paypal = () => {
+const Paypal = (props) => {
+  const {totalPrice}=props
+  console.log(totalPrice)
+ const  cart = {
+    totalPrice:totalPrice
+  }
 
     const createOrder = (data) => {
         // Order is created on the server and the order id is returned
-        return  fetch("/my-server/create-paypal-order", {
+        return  fetch("/api/v1/paypal/orders", {
           method: "POST",
            headers: {
-            "Content-Type": "application/json",
+            'Content-Type':'application/json'
           },
           body: JSON.stringify({
-           product:{
-            description: "Hat for the best team ever",
-            price: "10.00",
-           }
+            cart: cart,
           }),
         })
         .then((response) => response.json())
@@ -26,7 +28,7 @@ const Paypal = () => {
          return fetch("/my-server/capture-paypal-order", {
           method: "POST",
            headers: {
-            "Content-Type": "application/json",
+            'Content-Type':'application/json'
           },
           body: JSON.stringify({
             orderID: data.orderID

@@ -1,45 +1,89 @@
-// UserProfile.js
-import React from 'react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector,useDispatch } from 'react-redux';
 
 const UserProfile = () => {
+  const user=useSelector(state=>state.user);
+  
+
+
   return (
-    <div className=" min-h-screen flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md max-w-md w-full">
-        <div className="flex items-center">
-          <img
-            src="https://placekitten.com/100/100" // Replace with the user's profile picture
-            alt="Profile"
-            className="rounded-full h-16 w-16 mr-4"
-          />
-          <div>
-            <h1 className="text-2xl font-bold">John Doe</h1> {/* Replace with the user's name */}
-            <p className="text-gray-600">Web Developer</p> {/* Replace with the user's occupation */}
+    <div className="">
+   
+      {/* End of Navbar */}
+
+      <div className="container mx-auto my-5 p-5">
+        <div className="md:flex no-wrap md:-mx-2 ">
+          {/* Left Side */}
+          <div className="w-full md:w-3/12 md:mx-2">
+            {/* Profile Card */}
+            <div className="bg-white p-3 border-t-4 border-green-400">
+              <div className="image overflow-hidden">
+                <img
+                  className="h-auto w-full mx-auto"
+                  src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg&ga=GA1.1.719695053.1702300690&semt=ais"
+                  alt=""
+                />
+              </div>
+              <h1 className="text-gray-900 font-bold text-xl leading-8 my-1">{user.name?user.name:"John"}</h1>
+              <h3 className="text-gray-600 font-lg text-semibold leading-6">Owner at Her Company Inc.</h3>
+              <p className="text-sm text-gray-500 hover:text-gray-600 leading-6">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Reprehenderit, eligendi dolorum sequi illum qui unde aspernatur non deserunt
+                repellendus ex?
+              </p>
+            </div>
           </div>
-        </div>
-
-        <div className="mt-8">
-          <h2 className="text-lg font-bold mb-4">About Me</h2>
-          <p className="text-gray-700">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
-          </p>
-        </div>
-
-        <div className="mt-8">
-          <h2 className="text-lg font-bold mb-4">Contact Information</h2>
-          <ul>
-            <li className="flex items-center mb-2">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 9v2m0 4H8a4 4 0 0 1 0-8h8a4 4 0 0 1 0 8h-4zm0 0V21m0-2h0a2 2 0 0 1-2-2v-6m4 0v6a2 2 0 0 1-2 2h0"></path>
-              </svg>
-              johndoe@example.com
-            </li>
-            <li className="flex items-center">
-              <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12.79A11 11 0 1 0 8 4.22a11 11 0 0 0 13 8.57v0zm0 0L21 12.79M21 12.79L13.1 20.7M21 12.79L14.9 4.9M12 2L2 12m0 0l10 10m-10-10h20"></path>
-              </svg>
-              (123) 456-7890
-            </li>
-          </ul>
+          {/* Right Side */}
+          <div className="w-full md:w-9/12 md:mx-2">
+            {/* Update Section */}
+            <div className="bg-white p-3 border-t-4 border-green-400">
+              <div className="flex justify-between items-center">
+                <h2 className="text-gray-900 font-bold text-lg leading-8">Update</h2>
+                <button className="px-2 py-1 text-sm bg-blue-500 text-white rounded-full focus:outline-none">
+                  See all
+                </button>
+              </div>
+              <div className="mt-2">
+                {/* Update Item */}
+                <div className="flex justify-start items-start mt-2">
+                  <img
+                    className="h-12 w-12 rounded-full object-cover"
+                    src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg&ga=GA1.1.719695053.1702300690&semt=ais"
+                    alt=""
+                  />
+                  <div className="ml-2 w-3/4">
+                    <p className="text-gray-900 text-sm leading-6">Jane Doe</p>
+                    <p className="text-gray-600 text-xs leading-3">2 hours ago</p>
+                  </div>
+                </div>
+                <p className="text-gray-800 text-sm mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, consequatur.</p>
+              </div>
+            </div>
+            {/* Activities Section */}
+            <div className="bg-white p-3 border-t-4 border-green-400 mt-4">
+              <div className="flex justify-between items-center">
+                <h2 className="text-gray-900 font-bold text-lg leading-8">Activities</h2>
+                <button className="px-2 py-1 text-sm bg-blue-500 text-white rounded-full focus:outline-none">
+                  See all
+                </button>
+              </div>
+              <div className="mt-2">
+                {/* Activity Item */}
+                <div className="flex justify-start items-start mt-2">
+                  <img
+                    className="h-12 w-12 rounded-full object-cover"
+                    src="https://img.freepik.com/free-psd/3d-illustration-person-with-sunglasses_23-2149436188.jpg?size=626&ext=jpg&ga=GA1.1.719695053.1702300690&semt=ais"
+                    alt=""
+                  />
+                  <div className="ml-2 w-3/4">
+                    <p className="text-gray-900 text-sm leading-6">Jane Doe</p>
+                    <p className="text-gray-600 text-xs leading-3">2 hours ago</p>
+                  </div>
+                </div>
+                <p className="text-gray-800 text-sm mt-2">Lorem ipsum dolor sit amet consectetur adipisicing elit. Magni, consequatur.</p>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -6,7 +6,8 @@ const cookieParser = require('cookie-parser');
 const cors = require('cors')
 const connectToDb = require('./db/connectToDb');
 connectToDb()
-dotenv.config(); 
+dotenv.config();
+
 const app = express();
 app.use(cors())
 app.use(cookieParser())
@@ -18,6 +19,7 @@ app.use('/api/v1/category', require('./routes/categoryRoutes'));
 app.use('/api/v1/product', require('./routes/productRoutes'));
 app.use('/api/v1/recommendation', require('./routes/recommandation'));
 app.use('/api/v1/cart', require('./routes/cartRoutes'));
+app.use('/api/v1/paypal', require('./Paypal/paypal'));
 app.listen(3000, () => {
     console.log('Server is running on port 3000');
 });

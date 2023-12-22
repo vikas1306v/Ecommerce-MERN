@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import ProductCard from "../components/Card/ProductCard";
+import ProductCard from "../components/Product/ProductCard";
 
 const ProductList = (props) => {
 const {bestThings}=props
