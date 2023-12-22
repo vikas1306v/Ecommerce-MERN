@@ -3,7 +3,7 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyC5K2nRTEQXjS36NzC7fqNAgK6LPDZhB2s",
+  apiKey: "",
   authDomain: "ecommerce-2eeef.firebaseapp.com",
   projectId: "ecommerce-2eeef",
   storageBucket: "ecommerce-2eeef.appspot.com",
